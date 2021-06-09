@@ -1,6 +1,11 @@
 'use strict';
 
-const { graphql, buildSchema } = require('graphql');
+const { buildSchema } = require('graphql');
+const express = require('express');
+const { graphqlHTTP } = require('express-graphql');
+
+const app = express();
+const port = process.env.PORT || 3030;
 
 // define schemas
 const schema = buildSchema(`
@@ -20,13 +25,15 @@ const resolvers = {
   },
 };
 
-// exec query hello defined
-graphql(
-  schema,
-  `
-    {
-      greeting
-    }
-  `,
-  resolvers
-).then((data) => console.log(data));
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    rootValue: resolvers,
+    graphiql: true,
+  })
+);
+
+app.listen(port, () => {
+  console.log(`server is listening on http://localhost:${port}/graphql`);
+});
