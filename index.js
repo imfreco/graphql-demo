@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const { readFileSync } = require('fs');
 const { join } = require('path');
 const { makeExecutableSchema } = require('graphql-tools');
