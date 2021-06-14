@@ -6,21 +6,54 @@ type Course {
   topic: String
 }
 
+type Student {
+  _id: ID!
+  name: String!
+  email: String!
+}
+
 type Query {
   "get all course"
   courses: [Course]
   "get one specific course by id"
   course(id: ID!): Course
+  "get all students"
+  students: [Student]
+  "get one specific student by id"
+  student(id: ID!): Student
 }
 
-input CourseInput {
+input CourseCreateInput {
   title: String!
   teacher: String!
   description: String
   topic: String
 }
 
+input CourseUpdateInput {
+  title: String
+  teacher: String
+  description: String
+  topic: String
+}
+
+input StudentCreateInput {
+  name: String!
+  email: String!
+}
+
+input StudentUpdateInput {
+  name: String
+  email: String
+}
+
 type Mutation {
   "create one course"
-  createCourse(input: CourseInput!): Course
+  createCourse(input: CourseCreateInput!): Course
+  "update one course by id"
+  updateCourse(id: ID!, input: CourseUpdateInput!): Course
+  "create one student"
+  createStudent(input: StudentCreateInput!): Student
+  "update one student by id"
+  updateStudent(id: ID!, input: StudentUpdateInput!): Student
 }
