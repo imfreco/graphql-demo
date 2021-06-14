@@ -12,3 +12,15 @@ type Query {
   "get one specific course by id"
   course(id: ID!): Course
 }
+
+input CourseInput {
+  title: String!
+  teacher: String!
+  description: String
+  topic: String
+}
+
+type Mutation {
+  "create one course"
+  createCourse(input: CourseInput!): Course
+}
