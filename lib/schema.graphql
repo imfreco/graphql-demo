@@ -1,3 +1,10 @@
+"validate level types"
+enum Level {
+  simple
+  intermediate
+  hard
+}
+
 type Course {
   _id: ID!
   title: String!
@@ -5,12 +12,27 @@ type Course {
   description: String
   topic: String
   students: [Student]
+  level: Level!
 }
 
-type Student {
+interface Person {
   _id: ID!
   name: String!
   email: String!
+}
+
+type Student implements Person {
+  _id: ID!
+  name: String!
+  email: String!
+  avatar: String
+}
+
+type Monitor implements Person {
+  _id: ID!
+  name: String!
+  email: String!
+  phone: String
 }
 
 type Query {
@@ -19,9 +41,9 @@ type Query {
   "get one specific course by id"
   course(id: ID!): Course
   "get all students"
-  students: [Student]
+  people: [Person]
   "get one specific student by id"
-  student(id: ID!): Student
+  person(id: ID!): Person
 }
 
 input CourseCreateInput {
@@ -29,6 +51,7 @@ input CourseCreateInput {
   teacher: String!
   description: String
   topic: String
+  level: Level!
 }
 
 input CourseUpdateInput {
@@ -38,14 +61,18 @@ input CourseUpdateInput {
   topic: String
 }
 
-input StudentCreateInput {
+input PersonCreateInput {
   name: String!
   email: String!
+  avatar: String
+  phone: String
 }
 
-input StudentUpdateInput {
+input PersonUpdateInput {
   name: String
   email: String
+  avatar: String
+  phone: String
 }
 
 type Mutation {
@@ -53,10 +80,10 @@ type Mutation {
   createCourse(input: CourseCreateInput!): Course
   "update one course by id"
   updateCourse(id: ID!, input: CourseUpdateInput!): Course
-  "create one student"
-  createStudent(input: StudentCreateInput!): Student
-  "update one student by id"
-  updateStudent(id: ID!, input: StudentUpdateInput!): Student
+  "create one person"
+  createPerson(input: PersonCreateInput!): Person
+  "update one person by id"
+  updatePerson(id: ID!, input: PersonUpdateInput!): Person
   "add student to course"
   addStudent(courseId: ID!, studentId: ID!): Course
 }
